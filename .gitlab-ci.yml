@@ -14,9 +14,6 @@ cache:
     - venv/
     - dist/
 
-before_script:
-  - nix-shell --run 'pip install -r requirements.txt'
-
 test:
   stage: test
   script:

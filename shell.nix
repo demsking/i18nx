@@ -8,6 +8,7 @@ pkgs.mkShell {
   nativeBuildInputs = [
     pkgs.pylint
     pkgs.python39
+    pkgs.python39Packages.pip
     pkgs.python39Packages.wheel
     pkgs.python39Packages.build
     pkgs.python39Packages.twine
