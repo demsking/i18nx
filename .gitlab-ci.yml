@@ -17,7 +17,7 @@ cache:
 test:
   stage: test
   script:
-    - nix-shell --run 'pytest --cov=pi18n tests/unitests.py'
+    - nix-shell --run 'pytest --cov=i18nx tests/unitests.py'
   coverage: '/TOTAL\s+\d+\s+\d+\s+([\d\.]+)%/'
 
 build:
@@ -38,4 +38,4 @@ publish:
   only:
     - tags
   script:
-    - nix-shell --run 'python -m twine upload -u __token__ -p $PYPI_TOKEN --repository pi18n dist/*'
+    - nix-shell --run 'python -m twine upload -u __token__ -p $PYPI_TOKEN -r testpypi dist/*'

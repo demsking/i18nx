@@ -2,7 +2,7 @@ import pkg_resources
 from setuptools import find_packages, setup
 
 setup(
-  name = 'pi18n',
+  name = 'i18nx',
   version = '1.0.0',
   description="Lightweight i18n for Python",
   long_description = open('README.md', encoding='utf-8').read(),
@@ -14,9 +14,9 @@ setup(
   packages = find_packages(exclude=['tests*']),
   author = 'Sébastien Demanou',
   author_email = 'demsking@gmail.com',
-  url = 'https://gitlab.com/demsking/pi18n',
+  url = 'https://gitlab.com/demsking/i18nx',
   install_requires = [],
   py_modules = [
-    'pi18n',
+    'i18nx',
   ],
 )

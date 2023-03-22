@@ -1,7 +1,7 @@
 import sys
-sys.path.append('../pi18n')
+sys.path.append('../i18nx')
 
-from pi18n import I18n
+from i18nx import I18n
 
 def test_init():
   i18n = I18n('en', 'fr', {

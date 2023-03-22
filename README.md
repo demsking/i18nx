@@ -1,19 +1,19 @@
 # I18n for Python
 
-[![pypi version](https://badge.fury.io/py/pi18n.svg)](https://pypi.org/project/pi18n/)
+[![pypi version](https://badge.fury.io/py/i18nx.svg)](https://pypi.org/project/i18nx/)
 
-Lightweight i18n for Python
+Lightweight i18n for Python.
 
 ## Install
 
 ```sh
-pip install pi18n
+pip install i18nx
 ```
 
 ## Usage
 
 ```python
-from pi18n import I18n
+from i18nx import I18n
 
 i18n = I18n(
   locale = 'en',
@@ -31,10 +31,10 @@ print(i18n.tr("message.hello")) # Hello World!
 
 **Interpolation**
 
-`pi18n` use the Mustache like placeholders `{}` syntax for interpolation.
+`i18nx` use the Mustache like placeholders `{}` syntax for interpolation.
 
 ```python
-from pi18n import I18n
+from i18nx import I18n
 
 i18n = I18n(
   locale = 'en',
@@ -54,7 +54,7 @@ Use a pipe `|` separator in combination with the param `count` to define
 plurals on the locale translations.
 
 ```python
-from pi18n import I18n
+from i18nx import I18n
 
 i18n = I18n(
   locale = 'en',
@@ -109,5 +109,5 @@ interface class I18n:
 ## License
 
 Under the MIT license.
-See [LICENSE](https://gitlab.com/demsking/pi18n/blob/main/LICENSE) file for
+See [LICENSE](https://gitlab.com/demsking/i18nx/blob/main/LICENSE) file for
 more details.
