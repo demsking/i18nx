@@ -1,4 +1,4 @@
-image: nixos:20.03
+image: nixos/nix
 
 stages:
   - test
@@ -27,6 +27,8 @@ test:
 
 build:
   stage: build
+  needs:
+    - test
   script:
     - nix-shell --run 'python -m build'
   artifacts:
@@ -36,7 +38,9 @@ build:
 
 publish:
   stage: publish
+  needs:
+    - build
   only:
-    - main
+    - tags
   script:
     - nix-shell --run 'python -m twine upload --repository pi18n dist/*'
