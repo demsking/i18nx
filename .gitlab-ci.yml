@@ -1,0 +1,42 @@
+image: nixos:20.03
+
+stages:
+  - test
+  - build
+  - publish
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+    - /nix/store
+
+before_script:
+  - python --version  # For debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+test:
+  stage: test
+  script:
+    - pytest --cov=pi18n tests/unitests.py
+
+build:
+  stage: build
+  script:
+    - nix-shell --run 'python -m build'
+  artifacts:
+    paths:
+      - dist/*.whl
+      - dist/*.tar.gz
+
+publish:
+  stage: publish
+  only:
+    - main
+  script:
+    - nix-shell --run 'python -m twine upload --repository testpypi dist/*'
