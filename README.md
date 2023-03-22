@@ -1,6 +1,9 @@
 # I18n for Python
 
 [![pypi version](https://badge.fury.io/py/i18nx.svg)](https://pypi.org/project/i18nx/)
+[![Build status](https://gitlab.com/demsking/i18nx/badges/main/pipeline.svg)](https://gitlab.com/demsking/i18nx/pipelines)
+[![Test Coverage](https://gitlab.com/demsking/i18nx/badges/main/coverage.svg)](https://gitlab.com/demsking/i18nx/-/jobs)
+[![Buy me a beer](https://img.shields.io/badge/Buy%20me-a%20beer-1f425f.svg)](https://www.buymeacoffee.com/demsking)
 
 Lightweight i18n for Python.
 
@@ -98,7 +101,6 @@ interface class I18n:
 3. [Hook it `direnv` into your shell](https://direnv.net/docs/hook.html)
 
 4. At the top-level of your project run:
-
    ```sh
    direnv allow
    ```
@@ -109,5 +111,5 @@ interface class I18n:
 ## License
 
 Under the MIT license.
-See [LICENSE](https://gitlab.com/demsking/i18nx/blob/main/LICENSE) file for
-more details.
+See [LICENSE](https://gitlab.com/demsking/i18nx/blob/main/LICENSE)
+file for more details.
