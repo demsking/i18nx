@@ -10,14 +10,14 @@ variables:
 
 cache:
   paths:
-    - .cache/pip
     - env/
     - /nix/store
+    - dist/
 
 test:
   stage: test
   script:
-    - pytest --cov=pi18n tests/unitests.py
+    - nix-shell --run 'pytest --cov=pi18n tests/unitests.py'
 
 build:
   stage: build
