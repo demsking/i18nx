@@ -11,14 +11,8 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/
+    - env/
     - /nix/store
-
-before_script:
-  - python --version  # For debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
 
 test:
   stage: test
