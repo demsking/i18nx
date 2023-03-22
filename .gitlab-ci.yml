@@ -38,4 +38,4 @@ publish:
   only:
     - tags
   script:
-    - nix-shell --run 'python -m twine upload --repository pi18n dist/*'
+    - nix-shell --run 'python -m twine upload -u __token__ -p $PYPI_TOKEN --repository pi18n dist/*'
