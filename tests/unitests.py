@@ -13,10 +13,6 @@ def test_init():
   assert i18n.fallback_locale == 'fr'
   assert 'en' in i18n.available_locales
   assert 'fr' in i18n.available_locales
-  assert 'hello' in i18n._translations['en']
-  assert 'hello' in i18n._translations['fr']
-  assert i18n._translations['en']['hello'] == 'Hello'
-  assert i18n._translations['fr']['hello'] == 'Salut'
 
 def test_setters():
   i18n = I18n('en', 'fr', {

@@ -10,8 +10,8 @@ variables:
 
 cache:
   paths:
-    - env/
     - /nix/store
+    - venv/
     - dist/
 
 before_script:
@@ -21,6 +21,7 @@ test:
   stage: test
   script:
     - nix-shell --run 'pytest --cov=pi18n tests/unitests.py'
+  coverage: '/TOTAL\s+\d+\s+\d+\s+([\d\.]+)%/'
 
 build:
   stage: build

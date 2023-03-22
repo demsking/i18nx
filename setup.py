@@ -15,9 +15,7 @@ setup(
   author = 'Sébastien Demanou',
   author_email = 'demsking@gmail.com',
   url = 'https://gitlab.com/demsking/pi18n',
-  install_requires = [
-    'flatten-dict==0.4.2',
-  ],
+  install_requires = [],
   py_modules = [
     'pi18n',
   ],
