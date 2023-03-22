@@ -39,4 +39,4 @@ publish:
   only:
     - main
   script:
-    - nix-shell --run 'python -m twine upload --repository testpypi dist/*'
+    - nix-shell --run 'python -m twine upload --repository pi18n dist/*'
