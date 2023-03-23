@@ -1,10 +1,18 @@
+"""Internationalization module for Python"""
+
 from typing import List, Dict, Any
 
 class I18n:
   """I18n class"""
-  
+
   raw: Dict[str, Dict[str, Any]]
-  def __init__(self, locale: str, fallback_locale: str, translations: Dict[str, Dict[str, Any]], show_warning = False):
+  def __init__(
+    self,
+    locale: str,
+    fallback_locale: str,
+    translations: Dict[str, Dict[str, Any]],
+    show_warning = False
+  ):
     """Initializer"""
 
     self._locale = locale
@@ -28,7 +36,7 @@ class I18n:
   def locale(self, value: str):
     """Set active locale"""
     self._locale = value
-    
+
   @property
   def fallback_locale(self):
     """Fallback locale"""
@@ -54,54 +62,55 @@ class I18n:
 
     for key in input_object:
       value = input_object[key]
-      
-      if type(value) == dict:
+
+      if isinstance(value, dict):
         self._flatten_deep(value, key, result)
-      elif type(value) == list:
+      elif isinstance(value, list):
         self._flatten_deep(dict(zip(list(range(len(value))), value)), key, result)
       else:
         result[key] = value
-    
+
     return result
 
   def _flatten_deep(self, input_object: dict, base_key: str, result: dict):
     for key in input_object:
       prop = f'{base_key}.{key}' if base_key else key
       value = input_object[key]
-      
-      if type(value) == dict or type(value) == list:
-        self._flatten(value, prop, result)
+
+      if isinstance(value, (dict, list)):
+        self._flatten(value)
       else:
         result[prop] = value
-    
+
     return result
 
   def _get_message_variant(self, message: str, **params):
     count = params.get('count', 0)
     message = message.split('|')
-    
+
     if len(message) == 2:
       message = [message[0]] + message
 
     if count == 0:
       return message[0]
-    
+
     return message[1] if count == 1 else message[2]
-    
+
   def _translate(self, path: str, translations: dict, **params):
     if path in translations:
-      response = self._get_message_variant(translations[path], **params).strip() if '|' in translations[path] else translations[path]
+      message = translations[path]
+      response = self._get_message_variant(message, **params).strip() if '|' in message else message
 
-      for param in params:
-        response = response.replace("{" + str(param) + "}", str(params[param]))
+      for param, value in params.items():
+        response = response.replace("{" + str(param) + "}", str(value))
 
       return response
-    
+
     return None
 
   def tr(self, path: str, **params):
     """Get the translate text for the given dot path"""
-    
+
     response = self._translate(path, self._translations[self._locale], **params)
 
     if response is None:
@@ -111,7 +120,7 @@ class I18n:
 
     if response is None:
       if self._show_warning:
-        print("Translation missing for {key}".format(key=path))
+        print(f"Translation missing for {path}")
 
       return path
 

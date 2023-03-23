@@ -1,3 +1,5 @@
+# pylint: disable=missing-module-docstring,wrong-import-position,missing-function-docstring,protected-access,invalid-name
+
 import sys
 sys.path.append('../i18nx')
 
@@ -8,7 +10,7 @@ def test_init():
     'en': { 'hello': 'Hello' },
     'fr': { 'hello': 'Salut' },
   })
-  
+
   assert i18n.locale == 'en'
   assert i18n.fallback_locale == 'fr'
   assert 'en' in i18n.available_locales
@@ -19,13 +21,13 @@ def test_setters():
     'en': { 'hello': 'Hello' },
     'fr': { 'hello': 'Salut' },
   })
-  
+
   assert i18n.locale == 'en'
   assert i18n.fallback_locale == 'fr'
-  
+
   i18n.locale = 'fr'
   i18n.fallback_locale = 'en'
-  
+
   assert i18n.locale == 'fr'
   assert i18n.fallback_locale == 'en'
 
@@ -34,7 +36,7 @@ def test_deep():
     'en': { 'hello': { 'world': 'Hello World!' } },
     'fr': { 'hello': { 'world': 'Bonjour le monde!' } },
   })
-  
+
   assert 'hello.world' in i18n._translations['en']
   assert 'hello.world' in i18n._translations['fr']
   assert i18n._translations['en']['hello.world'] == 'Hello World!'

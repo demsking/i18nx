@@ -11,6 +11,14 @@ cache:
     - venv/
     - dist/
 
+before_script:
+  - nix-shell
+
+lint:
+  stage: test
+  script:
+    - nix-shell --run 'make lint'
+
 test:
   stage: test
   script:
@@ -20,9 +28,10 @@ test:
 build:
   stage: build
   needs:
+    - lint
     - test
   script:
-    - nix-shell --run 'male build'
+    - nix-shell --run 'make build'
   artifacts:
     paths:
       - dist/*.whl
@@ -35,4 +44,4 @@ publish:
   only:
     - tags
   script:
-    - nix-shell --run 'python -m twine upload -u __token__ -p $PYPI_TOKEN -r testpypi dist/*'
+    - nix-shell --run 'twine upload -u __token__ -p $PYPI_TOKEN -r testpypi dist/*'

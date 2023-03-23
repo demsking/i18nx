@@ -148,8 +148,11 @@ make test
 # run tests with coverage
 make coverage
 
+# run linter
+make lint
+
 # run build process
-make build
+make dist
 
 # publish
 make publish
