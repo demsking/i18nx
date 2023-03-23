@@ -15,4 +15,4 @@ dist: setup.py i18nx/*.py
 	python -m build
 
 publish: dist
-	twine upload -r testpypi dist/*
+	twine upload dist/*
