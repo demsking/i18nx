@@ -156,4 +156,5 @@ def test_raw():
     },
   )
 
+  assert isinstance(i18n.raw["greetings"], list)
   assert i18n.raw['greetings'] == greetings

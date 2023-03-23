@@ -65,10 +65,11 @@ class I18n:
 
       if isinstance(value, dict):
         self._flatten_deep(value, key, result)
-      elif isinstance(value, list):
-        self._flatten_deep(dict(zip(list(range(len(value))), value)), key, result)
       else:
         result[key] = value
+
+        if isinstance(value, list):
+          self._flatten_deep(dict(zip(list(range(len(value))), value)), key, result)
 
     return result
 
