@@ -124,6 +124,9 @@ interface class I18n:
 
   # Get the raw message for the given dot path
   @method get_raw_message(path: str) -> Union[str, None]
+
+  # Format the given raw message with the given params
+  @method format_raw_message(message: str, **params) -> str
 ```
 
 ## Development Setup

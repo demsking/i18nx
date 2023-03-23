@@ -109,19 +109,24 @@ class I18n:
 
     return self._translations[self._fallback_locale].get(path, None)
 
+  def format_raw_message(self, message: str, **params):
+    """Format the given raw message with the given params"""
+
+    if '|' in message:
+      message = self._get_message_variant(message, **params).strip()
+
+    for param, value in params.items():
+      message = message.replace("{" + str(param) + "}", str(value))
+
+    return message
+
   def tr(self, path: str, **params):
     """Get translated text for the given dot path"""
 
     message = self.get_raw_message(path)
 
     if message:
-      if '|' in message:
-        message = self._get_message_variant(message, **params).strip()
-
-      for param, value in params.items():
-        message = message.replace("{" + str(param) + "}", str(value))
-
-      return message
+      return self.format_raw_message(message, **params)
 
     if self._raise_on_missing_path:
       raise I18nMissingMessageException(f"Missing translation message for path {path}")
