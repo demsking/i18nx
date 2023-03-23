@@ -44,4 +44,4 @@ publish on pypi:
   only:
     - tags
   script:
-    - nix-shell --run 'twine upload -u __token__ -p $PYPI_TOKEN -r testpypi dist/*'
+    - nix-shell --run 'twine upload --non-interactive --disable-progress-bar -r testpypi -u __token__ -p "$PYPI_TOKEN" dist/*'
