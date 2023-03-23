@@ -19,28 +19,28 @@ lint:
   script:
     - nix-shell --run 'make lint'
 
-test:
+unit tests:
   stage: test
   script:
     - nix-shell --run 'make test'
   coverage: '/TOTAL\s+\d+\s+\d+\s+([\d\.]+)%/'
 
-build:
+build distribution files:
   stage: build
   needs:
     - lint
-    - test
+    - unit tests
   script:
-    - nix-shell --run 'make build'
+    - nix-shell --run 'make dist'
   artifacts:
     paths:
       - dist/*.whl
       - dist/*.tar.gz
 
-publish:
+publish on pypi:
   stage: publish
   needs:
-    - build
+    - build distribution files
   only:
     - tags
   script:

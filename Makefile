@@ -10,7 +10,8 @@ coverage:
 clean:
 	rm -rf dist/
 
-dist: i18nx/*.py
+dist: setup.py i18nx/*.py
+	rm -rf dist/
 	python -m build
 
 publish: dist
