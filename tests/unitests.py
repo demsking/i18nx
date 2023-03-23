@@ -31,7 +31,7 @@ def test_setters():
   assert i18n.locale == 'fr'
   assert i18n.fallback_locale == 'en'
 
-def test_deep():
+def test_nested():
   i18n = I18n('en', 'fr', {
     'en': { 'hello': { 'world': 'Hello World!' } },
     'fr': { 'hello': { 'world': 'Bonjour le monde!' } },
@@ -41,6 +41,13 @@ def test_deep():
   assert 'hello.world' in i18n._translations['fr']
   assert i18n._translations['en']['hello.world'] == 'Hello World!'
   assert i18n._translations['fr']['hello.world'] == 'Bonjour le monde!'
+
+def test_deep():
+  i18n = I18n('en', 'fr', {
+    'en': { 'hello': { 'world': { 'cameroon': 'Continent' } } },
+  })
+
+  assert i18n._translations['en']['hello.world.cameroon'] == 'Continent'
 
 def test_translation():
   i18n = I18n(

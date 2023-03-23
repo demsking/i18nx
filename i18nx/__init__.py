@@ -78,7 +78,7 @@ class I18n:
       value = input_object[key]
 
       if isinstance(value, (dict, list)):
-        self._flatten(value)
+        self._flatten_deep(value, prop, result)
       else:
         result[prop] = value
 
