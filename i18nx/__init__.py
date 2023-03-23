@@ -1,23 +1,27 @@
 """Internationalization module for Python"""
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
+
+class I18nMissingMessageException(Exception):
+  """Raised on missing path"""
 
 class I18n:
   """I18n class"""
 
   raw: Dict[str, Dict[str, Any]]
+
   def __init__(
     self,
     locale: str,
     fallback_locale: str,
     translations: Dict[str, Dict[str, Any]],
-    show_warning = False
+    raise_on_missing_path = False
   ):
     """Initializer"""
 
     self._locale = locale
     self._fallback_locale = fallback_locale
-    self._show_warning = show_warning
+    self._raise_on_missing_path = raise_on_missing_path
     self._raw = translations
     self._translations = {
       lang: self._flatten(messages) for lang, messages in translations.items()
@@ -97,32 +101,29 @@ class I18n:
 
     return message[1] if count == 1 else message[2]
 
-  def _translate(self, path: str, translations: dict, **params):
-    if path in translations:
-      message = translations[path]
-      response = self._get_message_variant(message, **params).strip() if '|' in message else message
+  def get_raw_message(self, path: str) -> Union[str, None]:
+    """Get the raw message for the given dot path"""
 
-      for param, value in params.items():
-        response = response.replace("{" + str(param) + "}", str(value))
+    if path in self._translations[self._locale]:
+      return self._translations[self._locale][path]
 
-      return response
-
-    return None
+    return self._translations[self._fallback_locale].get(path, None)
 
   def tr(self, path: str, **params):
-    """Get the translate text for the given dot path"""
+    """Get translated text for the given dot path"""
 
-    response = self._translate(path, self._translations[self._locale], **params)
+    message = self.get_raw_message(path)
 
-    if response is None:
-      response = self._translate(path, self._translations[self._fallback_locale], **params)
-    else:
-      return response
+    if message:
+      if '|' in message:
+        message = self._get_message_variant(message, **params).strip()
 
-    if response is None:
-      if self._show_warning:
-        print(f"Translation missing for {path}")
+      for param, value in params.items():
+        message = message.replace("{" + str(param) + "}", str(value))
 
-      return path
+      return message
 
-    return response
+    if self._raise_on_missing_path:
+      raise I18nMissingMessageException(f"Missing translation message for path {path}")
+
+    return path

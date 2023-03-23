@@ -53,7 +53,7 @@ print(i18n.tr("message.hello", name = 'Mario')) # Hello Mario!
 
 **Pluralization**
 
-Use a pipe `|` separator in combination with the param `count` to define 
+Use a pipe `|` separator in combination with the param `count` to define
 plurals on the locale translations.
 
 ```python
@@ -108,19 +108,22 @@ interface class I18n:
   constructor(locale: str, fallback_locale: str, translations: Dict[str, Dict[str, Any]], show_warning = False)
 
   # Active locale
-  @property locale: str    
+  @property locale: str
 
   # Fallback locale
   @property fallback_locale: str
 
   # Available locales
   @getter available_locales: List[str]
-  
+
   # Raw translations object for the active locale
   @getter raw: dict
 
-  # Get the translate text for the given dot path
+  # Get translated text for the given dot path
   @method tr(path: str, **params) -> str
+
+  # Get the raw message for the given dot path
+  @method get_raw_message(path: str) -> Union[str, None]
 ```
 
 ## Development Setup

@@ -1,9 +1,11 @@
 # pylint: disable=missing-module-docstring,wrong-import-position,missing-function-docstring,protected-access,invalid-name
 
 import sys
+import pytest
+
 sys.path.append('../i18nx')
 
-from i18nx import I18n
+from i18nx import I18n, I18nMissingMessageException
 
 def test_init():
   i18n = I18n('en', 'fr', {
@@ -49,6 +51,13 @@ def test_deep():
 
   assert i18n._translations['en']['hello.world.cameroon'] == 'Continent'
 
+def test_get_raw_message():
+  i18n = I18n('en', 'fr', {
+    'en': { 'hello': { 'world': { 'cameroon': '{city} is my city' } } },
+  })
+
+  assert i18n.get_raw_message('hello.world.cameroon') == '{city} is my city'
+
 def test_translation():
   i18n = I18n(
     locale = 'en',
@@ -86,10 +95,11 @@ def test_missing_translation_with_warning():
     locale = 'en',
     fallback_locale = 'fr',
     translations = {},
-    show_warning = True
+    raise_on_missing_path = True
   )
 
-  assert i18n.tr("message.hello") == 'message.hello'
+  with pytest.raises(I18nMissingMessageException) as _e:
+    assert i18n.tr("message.hello") == 'message.hello'
 
 def test_interpolation():
   i18n = I18n(
