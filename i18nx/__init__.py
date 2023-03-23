@@ -2,13 +2,15 @@ from typing import List, Dict, Any
 
 class I18n:
   """I18n class"""
-
+  
+  raw: Dict[str, Dict[str, Any]]
   def __init__(self, locale: str, fallback_locale: str, translations: Dict[str, Dict[str, Any]], show_warning = False):
     """Initializer"""
 
     self._locale = locale
     self._fallback_locale = fallback_locale
     self._show_warning = show_warning
+    self._raw = translations
     self._translations = {
       lang: self._flatten(messages) for lang, messages in translations.items()
     }
@@ -41,20 +43,27 @@ class I18n:
   def available_locales(self):
     """Available locales"""
     return self._translations.keys()
-  
+
+  @property
+  def raw(self) -> dict:
+    """Raw translations object for the active locale"""
+    return self._raw[self._locale]
+
   def _flatten(self, input_object: dict):
     result = {}
 
     for key in input_object:
       value = input_object[key]
       
-      if type(value) == dict or type(value) == list:
+      if type(value) == dict:
         self._flatten_deep(value, key, result)
+      elif type(value) == list:
+        self._flatten_deep(dict(zip(list(range(len(value))), value)), key, result)
       else:
         result[key] = value
     
     return result
-  
+
   def _flatten_deep(self, input_object: dict, base_key: str, result: dict):
     for key in input_object:
       prop = f'{base_key}.{key}' if base_key else key
@@ -91,7 +100,7 @@ class I18n:
     return None
 
   def tr(self, path: str, **params):
-    """Get the translate text for the given path"""
+    """Get the translate text for the given dot path"""
     
     response = self._translate(path, self._translations[self._locale], **params)
 

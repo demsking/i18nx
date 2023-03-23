@@ -6,6 +6,7 @@ in
 
 pkgs.mkShell {
   nativeBuildInputs = [
+    pkgs.gnumake
     pkgs.pylint
     pkgs.python39
     pkgs.python39Packages.pip
@@ -15,10 +16,9 @@ pkgs.mkShell {
     pkgs.python39Packages.pytest
     pkgs.python39Packages.pytest-cov
     pkgs.python39Packages.setuptools
-    pkgs.python39Packages.virtualenv
   ];
   shellHook = ''
-    ${pkgs.python39}/bin/virtualenv -m venv ${envDir}
+    ${pkgs.python39}/bin/python -m venv ${envDir}
 
     export PIP_PREFIX=${envDir}
     export PYTHONUSERBASE=${envDir}

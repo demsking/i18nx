@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "arrterian.nix-env-selector",
+    "mkhl.direnv"
+  ]
+}

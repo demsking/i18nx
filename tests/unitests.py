@@ -113,3 +113,38 @@ def test_plurals():
   assert i18n.tr("apple", count = 0) == 'no apples'
   assert i18n.tr("apple", count = 1) == 'one apple'
   assert i18n.tr("apple", count = 15) == '15 apples'
+
+def test_list():
+  i18n = I18n(
+    locale = 'en',
+    fallback_locale = 'fr',
+    translations = {
+      'en': {
+        "greetings": [
+          "Hey {firtname}!",
+          "Hi {firtname}!",
+        ],
+      },
+    },
+  )
+
+  assert i18n.tr("greetings.0", firtname = 'Mario') == 'Hey Mario!'
+  assert i18n.tr("greetings.1", firtname = 'Mario') == 'Hi Mario!'
+
+def test_raw():
+  greetings = [
+    "Hey {firtname}!",
+    "Hi {firtname}!",
+  ]
+
+  i18n = I18n(
+    locale = 'en',
+    fallback_locale = 'fr',
+    translations = {
+      'en': {
+        "greetings": greetings,
+      },
+    },
+  )
+
+  assert i18n.raw['greetings'] == greetings

@@ -79,16 +79,47 @@ print(i18n.tr("apple", count = 1)) # 'one apple'
 print(i18n.tr("apple", count = 15)) # '15 apples'
 ```
 
+**List of Messages**
+
+```python
+from i18nx import I18n
+
+i18n = I18n(
+  locale = 'en',
+  fallback_locale = 'fr',
+  translations = {
+    'en': {
+      "greetings": [
+        "Hey {firtname}!",
+        "Hi {firtname}!",
+      ],
+    },
+  },
+)
+
+print(i18n.tr("greetings.0", firtname = 'Mario')) # 'Hey Mario!'
+print(i18n.tr("greetings.1", firtname = 'Mario')) # 'Hi Mario!'
+```
+
 ## I18n API
 
 ```coffee
 interface class I18n:
   constructor(locale: str, fallback_locale: str, translations: Dict[str, Dict[str, Any]], show_warning = False)
 
+  # Active locale
   @property locale: str    
-  @property fallback_locale: str
-  @property available_locales: List[str]
 
+  # Fallback locale
+  @property fallback_locale: str
+
+  # Available locales
+  @getter available_locales: List[str]
+  
+  # Raw translations object for the active locale
+  @getter raw: dict
+
+  # Get the translate text for the given dot path
   @method tr(path: str, **params) -> str
 ```
 
@@ -107,6 +138,22 @@ interface class I18n:
 
    The next time your launch your terminal and enter the top-level of your
    project, `direnv` will check for changes.
+
+**Scripts**
+
+```sh
+# run tests
+make test
+
+# run tests with coverage
+make coverage
+
+# run build process
+make build
+
+# publish
+make publish
+```
 
 ## License
 
