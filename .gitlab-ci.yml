@@ -5,9 +5,6 @@ stages:
   - build
   - publish
 
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
 cache:
   paths:
     - /nix/store
@@ -17,7 +14,7 @@ cache:
 test:
   stage: test
   script:
-    - nix-shell --run 'pytest --cov=i18nx tests/unitests.py'
+    - nix-shell --run 'make test'
   coverage: '/TOTAL\s+\d+\s+\d+\s+([\d\.]+)%/'
 
 build:
@@ -25,7 +22,7 @@ build:
   needs:
     - test
   script:
-    - nix-shell --run 'python -m build'
+    - nix-shell --run 'male build'
   artifacts:
     paths:
       - dist/*.whl
