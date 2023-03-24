@@ -2,6 +2,9 @@
 
 from typing import List, Dict, Any, Union
 
+Message = Dict[str, Union[str, int, float, list]]
+Message = Dict[str, Union[str, int, float, list, Message]]
+
 class I18nMissingMessageException(Exception):
   """Raised on missing path"""
 
@@ -14,7 +17,7 @@ class I18n:
     self,
     locale: str,
     fallback_locale: str,
-    translations: Dict[str, Dict[str, Any]],
+    translations: Dict[str, Message],
     raise_on_missing_path = False
   ):
     """Initializer"""
@@ -61,14 +64,14 @@ class I18n:
     """Raw translations object for the active locale"""
     return self._raw[self._locale]
 
-  def _flatten(self, input_object: Union[dict, list, int, float]):
+  def _flatten(self, input_object: Message):
     result = {}
 
     self._flatten_deep(input_object, None, result)
 
     return result
 
-  def _flatten_deep(self, message: Union[dict, list, int, float], base_key: str, result: dict):
+  def _flatten_deep(self, message: Message, base_key: str, result: dict):
     if isinstance(message, dict):
       for key in message:
         prop = f'{base_key}.{key}' if base_key else key

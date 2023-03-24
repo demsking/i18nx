@@ -1,8 +1,21 @@
 {
   "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix",
-  "files.trimTrailingWhitespace": true,
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": [
     "tests/unitests.py"
-  ]
+  ],
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "venv": true,
+    "**/.directory": true,
+    "**/.coverage": true,
+    "**/build": true,
+    "**/.pytest_cache": true,
+    "**/cache_dir": true,
+    "**/*.egg-info": true,
+    "**/__pycache__": true,
+    "**/dist": true
+  }
 }
