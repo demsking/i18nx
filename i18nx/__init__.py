@@ -61,33 +61,26 @@ class I18n:
     """Raw translations object for the active locale"""
     return self._raw[self._locale]
 
-  def _flatten(self, input_object: dict):
+  def _flatten(self, input_object: Union[dict, list, int, float]):
     result = {}
 
-    for key in input_object:
-      value = input_object[key]
-
-      if isinstance(value, dict):
-        self._flatten_deep(value, key, result)
-      else:
-        result[key] = value
-
-        if isinstance(value, list):
-          self._flatten_deep(dict(zip(list(range(len(value))), value)), key, result)
+    self._flatten_deep(input_object, None, result)
 
     return result
 
-  def _flatten_deep(self, input_object: dict, base_key: str, result: dict):
-    for key in input_object:
-      prop = f'{base_key}.{key}' if base_key else key
-      value = input_object[key]
+  def _flatten_deep(self, message: Union[dict, list, int, float], base_key: str, result: dict):
+    if isinstance(message, dict):
+      for key in message:
+        prop = f'{base_key}.{key}' if base_key else key
+        value = message[key]
 
-      if isinstance(value, (dict, list)):
         self._flatten_deep(value, prop, result)
-      else:
-        result[prop] = value
+    elif isinstance(message, list):
+      result[base_key] = message
 
-    return result
+      self._flatten_deep(dict(zip(list(range(len(message))), message)), base_key, result)
+    else:
+      result[base_key] = f'{message}'
 
   def _get_message_variant(self, message: str, **params):
     count = params.get('count', 0)
