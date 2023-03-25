@@ -7,7 +7,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
   name = 'i18nx',
-  version = '1.1.0',
+  version = '1.2.0',
   description = "Lightweight i18n for Python",
   long_description = readme,
   long_description_content_type = 'text/markdown',
