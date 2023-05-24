@@ -1,6 +1,6 @@
 """Internationalization module for Python"""
 
-from typing import List, Dict, Any, Union
+from typing import Any, Dict, Union
 
 Message = Dict[str, Union[str, int, float, list]]
 Message = Dict[str, Union[str, int, float, list, Message]]
@@ -85,7 +85,22 @@ class I18n:
     else:
       result[base_key] = f'{message}'
 
-  def _get_message_variant(self, message: str, **params):
+  @staticmethod
+  def get_message_variant(message: str, **params):
+    """
+    Get the appropriate message variant based on the provided parameters.
+
+    Args:
+      message (str): The message string containing variants separated by '|'.
+      **params: Additional parameters used to determine the variant.
+
+    Returns:
+      str: The selected message variant based on the provided parameters.
+
+    Example:
+      I18n.get_message_variant("You have |{count} item|{count} items", count=3)
+      Returns: "3 items"
+    """
     count = params.get('count', 0)
     message = message.split('|')
 
@@ -105,11 +120,24 @@ class I18n:
 
     return self._translations[self._fallback_locale].get(path, None)
 
-  def format_raw_message(self, message: str, **params):
-    """Format the given raw message with the given params"""
+  @staticmethod
+  def format_raw_message(message: str, **params):
+    """
+    Format a raw message string by replacing placeholders with provided parameter values.
 
+    Args:
+      message (str): The raw message string to be formatted.
+      **params: Additional parameters used to replace placeholders in the message.
+
+    Returns:
+      str: The formatted message string with replaced placeholders.
+
+    Example:
+      I18n.format_raw_message("Hello, {name}! You have {count} new messages.", name="John", count=3)
+      Returns: "Hello, John! You have 3 new messages."
+    """
     if '|' in message:
-      message = self._get_message_variant(message, **params).strip()
+      message = I18n.get_message_variant(message, **params).strip()
 
     for param, value in params.items():
       message = message.replace("{" + str(param) + "}", str(value))
@@ -122,7 +150,7 @@ class I18n:
     message = self.get_raw_message(path)
 
     if message:
-      return self.format_raw_message(message, **params)
+      return I18n.format_raw_message(message, **params)
 
     if self._raise_on_missing_path:
       raise I18nMissingMessageException(f"Missing translation message for path {path}")

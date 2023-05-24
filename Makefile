@@ -13,6 +13,7 @@ clean:
 dist: setup.py i18nx/*.py
 	rm -rf dist/
 	python -m build
+	twine check dist/*
 
 publish: dist
 	twine upload dist/*
